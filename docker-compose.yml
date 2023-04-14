@@ -1,0 +1,19 @@
+version: '3' # version of docker compose
+services: # the containers we are building
+    web: # the name of the container
+        build:
+            context: . # reference the current working directory
+            dockerfile: Dockerfile.dev #explicitly call the dev dockerfile
+        ports: 
+            - "3000:3000"
+        volumes:
+            - /app/node_modules # do not try to mount outside the container
+            - .:/app # mount the current directory to /app inside the container
+    tests:
+        build:
+            context: . # reference the current working directory
+            dockerfile: Dockerfile.dev #explicitly call the dev dockerfile
+        volumes:
+            - /app/node_modules # do not try to mount outside the container
+            - .:/app # mount the current directory to /app inside the container
+        command: ["npm", "run", "test"]
